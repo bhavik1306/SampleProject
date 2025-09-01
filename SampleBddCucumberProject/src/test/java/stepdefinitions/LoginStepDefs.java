@@ -30,7 +30,7 @@ public class LoginStepDefs {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         try {
-            driver.get("https://leaseoasis.ae/");
+            driver.get("https://dev.staging.mvp.leaseoasis.ae/");
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             System.out.println("title of the page: "+driver.getTitle());

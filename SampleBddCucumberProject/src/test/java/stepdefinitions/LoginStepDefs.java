@@ -23,8 +23,11 @@ public class LoginStepDefs {
     WebDriver driver;
     @After
     public void tearDown(){
-        driver.close();
+        if (driver != null) {
+            driver.close();
+        }
     }
+
     @Given("user is on login page")
     public void user_on_login_page() throws InterruptedException {
         WebDriverManager.chromedriver().setup();

@@ -10,9 +10,14 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.EntityType;
 import utils.ScreenshotUtil;
 import utils.Utils;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +26,9 @@ public class SignUpStepDef {
     WebDriver driver;
     @After
     public void tearDown(){
-        driver.close();
+        if (driver != null) {
+            driver.close();
+        }
     }
 
     @Given("user is on Sign Up page")
@@ -47,6 +54,24 @@ public class SignUpStepDef {
         try {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             List<Map<String,String>> table =  dataTable.asMaps(String.class,String.class);
+
+            if((table.get(0).get("UserType").toString()).contains("Operator")){
+                Thread.sleep(3000);
+                driver.findElement(By.xpath("//*[text()='Operator']")).click();
+                Thread.sleep(3000);
+            } else if ((table.get(0).get("UserType").toString()).contains("Agency")) {
+                Thread.sleep(3000);
+                driver.findElement(By.xpath("//*[text()='Agency']")).click();
+                Thread.sleep(3000);
+                driver.findElement(By.xpath("//*[@name='companyName']")).sendKeys(table.get(0).get("CompanyName").toString());
+                Thread.sleep(2000);
+            }else {
+                Thread.sleep(3000);
+                driver.findElement(By.xpath("//*[text()='Landlord']")).click();
+                Thread.sleep(3000);
+                EntityType.selectEntityType(table.get(0).get("EntityType"),driver);
+                Thread.sleep(2000);
+            }
 
             driver.findElement(By.xpath("//*[@name='firstName']")).sendKeys(table.get(0).get("FirstName"));
             Thread.sleep(2000);
@@ -79,8 +104,8 @@ public class SignUpStepDef {
         try {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             driver.findElement(By.xpath("//button[@type='submit']")).click();
-            Thread.sleep(3000);
-            driver.findElement(By.xpath("//*[text()='OTP Verification']")).getText().toString();
+            Wait wt = new WebDriverWait(driver, Duration.ofSeconds(20));
+            wt.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[text()='OTP Verification']")));
             Assert.assertEquals( driver.findElement(By.xpath("//*[text()='OTP Verification']")).getText().toString(),"OTP Verification");
             Assert.assertTrue(driver.findElement(By.xpath("//*[text()='OTP Verification']")).isDisplayed());
         }catch (Exception e){

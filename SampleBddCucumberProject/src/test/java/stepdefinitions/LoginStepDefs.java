@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import utils.DriverManager;
 import utils.ScreenshotUtil;
 
 import java.sql.SQLOutput;
@@ -20,21 +21,12 @@ import java.util.concurrent.TimeUnit;
 
 
 public class LoginStepDefs {
-    WebDriver driver;
-    @After
-    public void tearDown(){
-        if (driver != null) {
-            driver.close();
-        }
-    }
+    WebDriver driver = DriverManager.getDriver();
 
     @Given("user is on login page")
     public void user_on_login_page() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
         try {
             driver.get("https://dev.staging.mvp.leaseoasis.ae/");
-            driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             System.out.println("title of the page: "+driver.getTitle());
             Assert.assertTrue(driver.getTitle().toString().contains("Lease Oasis"));

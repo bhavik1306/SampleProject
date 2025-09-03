@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.EntityType;
+import utils.DriverManager;
 import utils.ScreenshotUtil;
 import utils.Utils;
 
@@ -23,21 +24,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class SignUpStepDef {
-    WebDriver driver;
-    @After
-    public void tearDown(){
-        if (driver != null) {
-            driver.close();
-        }
-    }
+    WebDriver driver = DriverManager.getDriver();
 
     @Given("user is on Sign Up page")
     public void userIsOnSignUpPage() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
         try {
             driver.get("https://dev.staging.mvp.leaseoasis.ae/");
-            driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             System.out.println("title of the page: "+driver.getTitle());
             Assert.assertTrue(driver.getTitle().toString().contains("Lease Oasis"));

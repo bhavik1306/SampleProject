@@ -1,20 +1,14 @@
 package stepdefinitions;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import utils.DriverManager;
 import utils.ScreenshotUtil;
-
-import java.sql.SQLOutput;
-import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
